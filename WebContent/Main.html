@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Advanced Health Assessment Program</title>
+<script src="js/jquery.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" 
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!-- Styles -->
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/main.css" />
+<link rel="stylesheet" href="css/customize.css" />
+
+<script>
+	function tempAlert(msg, duration) {
+		var el = document.createElement("div");
+		el.setAttribute("style",
+				"position:absolute;top:40%;left:20%;background-color:white;");
+		el.innerHTML = msg;
+		setTimeout(function() {
+			el.parentNode.removeChild(el);
+		}, duration);
+		document.body.appendChild(el);
+	}
+
+	function panelClass(n) {
+		var a = "";
+		if (n == 0) {
+			a = 'panel panel-success';
+		}
+		if (n == 1) {
+			a = 'panel panel-warning';
+		}
+		if (n == 2) {
+			a = 'panel panel-danger';
+		}
+
+		return a;
+	}
+
+	function getData() {
+		$.ajax({
+			url : 'http://localhost:8080/AHAP/Analyze',
+			datatype : 'json',
+			type : 'get',
+			success : function(response) {
+				$('#BP').html(response.BP[1] + "/" + response.BP2[1]);
+				$('#RR').html(response.RR[1]);
+				$('#BT').html(response.BT[1]);
+				$('#HR').html(response.HR[1]);
+				$('#BPL').html(response.BP[2] + "/" + response.BP2[2]);
+				$('#RRL').html(response.RR[2]);
+				$('#BTL').html(response.BT[2]);
+				$('#HRL').html(response.HR[2]);
+				$('#BPpanel').removeClass().addClass(panelClass(response.BP[4]));
+				$('#RRpanel').removeClass().addClass(panelClass(response.RR[4]));
+				$('#BTpanel').removeClass().addClass(panelClass(response.BT[4]));
+				$('#HRpanel').removeClass().addClass(panelClass(response.HR[4]));
+				$('#BPanalysis').html(response.BP[3]);
+				$('#RRanalysis').html(response.RR[3]);
+				$('#BTanalysis').html(response.BT[3]);
+				$('#HRanalysis').html(response.HR[3]);
+
+				$('#BTSearchLink').attr("href", function() {
+					return "Search.jsp?q=" + response.BT[5]
+				});
+				$('#BPSearchLink').attr("href", function() {
+					return "Search.jsp?q=" + response.BP[5]
+				});
+				$('#RRSearchLink').attr("href", function() {
+					return "Search.jsp?q=" + response.RR[5]
+				});
+				$('#HRSearchLink').attr("href", function() {
+					return "Search.jsp?q=" + response.HR[5]
+				});
+
+				setTimeout(getData, 2000);
+			},
+
+			error : function(xhr, status) {
+				$('#BP').html("Awaiting Data");
+				$('#RR').html("Awaiting Data");
+				$('#BT').html("Awaiting Data");
+				$('#HR').html("Awaiting Data");
+				$('#BPL').html("Awaiting Data");
+				$('#RRL').html("Awaiting Data");
+				$('#BTL').html("Awaiting Data");
+				$('#HRL').html("Awaiting Data");
+				setTimeout(getData, 2000);
+			}
+		});
+	}
+
+	getData();
+</script>
+</head>
+
+<body>
+	<nav>
+		<ul class="list-unstyled main-menu">
+			<!--Include your navigation here-->
+			<li class="text-right"><a href="#" id="nav-close"><i class="glyphicon glyphicon-menu-right"></i></a></li>
+			<li><a href="Main.html">Home <span class="icon"><i class="glyphicon glyphicon-home"></i></span></a></li>
+			<li><a href="Profile.jsp">Profile <span class="icon"><i class="glyphicon glyphicon-user"></i></span></a></li>
+			<li><a href="Chart?type=1">Body Temperature<span class="icon"><i class="glyphicon glyphicon-fire"></i></span></span></a></li>
+			<li><a href="Chart?type=2">Heart Rate <span class="icon"><i class="glyphicon glyphicon-heart"></i></span></a></li>
+			<li><a href="Chart?type=3">Respiratory Rate <span class="icon"><i class="glyphicon glyphicon-random"></i></span></a></li>
+			<li><a href="Chart?type=4">Blood Pressure <span class="icon"><i class="glyphicon glyphicon-tint"></i></span></a></li>
+			<li><a href="Logout">Log Out <span class="icon"><i class="glyphicon glyphicon-off"></i></span></a></li>
+	    </ul>
+	</nav>
+
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<!--Include your brand here-->
+		<table border="0" id="pageheader">
+			<tr><td><a href="Main.html"><img src="images/logo_small.png" alt="Advance Health Assessment Program" /></a></td></tr>
+		</table>
+		<div class="navbar-header pull-right">
+			<a id="nav-expander" class="nav-expander fixed"> MENU &nbsp; <i class="glyphicon glyphicon-align-justify"></i></a>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row"></div>
+	</div>
+
+	<br /><br /><br /><br /><br /><br />
+
+	<!-- The Squares -->
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-6">
+				<div id="BTpanel" class="panel panel-success">
+					<div class="panel-heading">
+						<h5>Body Temperature (°F)</h5>
+					</div>
+					<div class="panel-body">
+						<h2>
+							<a href="Chart?type=1"><span id="BTL"></span></a>
+						</h2>
+						Average: <span id="BT"></span>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div id="HRpanel" class="panel panel-success">
+					<div class="panel-heading">
+						<h5>Heart Rate (beats/min)</h5>
+					</div>
+					<div class="panel-body">
+						<h2>
+							<a href="Chart?type=2"><span id="HRL"></span></a>
+						</h2>
+						Average: <span id="HR"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-6">
+				<div id="RRpanel" class="panel panel-success">
+					<div class="panel-heading">
+						<h5>Respiratory Rate (breaths/min)</h5>
+					</div>
+					<div class="panel-body">
+						<h2>
+							<a href="Chart?type=3"><span id="RRL"></span></a>
+						</h2>
+						Average: <span id="RR"></span>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div id="BPpanel" class="panel panel-success">
+					<div class="panel-heading">
+						<h5>Blood Pressure (Sys/Dias mm Hg)</h5>
+					</div>
+					<div class="panel-body">
+						<h2>
+							<a href="Chart?type=4"><span id="BPL"></span></a>
+						</h2>
+						Average: <span id="BP"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br /><br /><br />
+	
+	<div class="container">
+		<div class="row">
+			<table border="0" id="analysis">
+				<tr id="odd">
+					<td><b>Body Temperature</b></td>
+					<td id="BTanalysis"></td>
+					<td><a href="" id="BTSearchLink" target="_blank">Search</a></td>
+				</tr>
+				<tr id="even">
+					<td><b>Heart Rate</b></td>
+					<td id="HRanalysis"></td>
+					<td><a href="" id="HRSearchLink" target="_blank">Search</a></td>
+				</tr>
+				<tr id="odd">
+					<td><b>Respiratory Rate</b></td>
+					<td id="RRanalysis"></td>
+					<td><a href="" id="RRSearchLink" target="_blank">Search</a></td>
+				</tr>
+				<tr id="even">
+					<td><b>Blood Pressure</b></td>
+					<td id="BPanalysis"></td>
+					<td><a href="" id="BPSearchLink" target="_blank">Search</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<br /><br /><br />
+	
+	<table border="0" style="width: 100%; text-align: center;">
+		<tr><td><b><a href="Main.html">Home</a></b> | <a href="Profile.jsp">Profile</a> | <a href="Logout">Logout</a></td></tr>
+		<tr><td>&nbsp;</td></tr>
+		<tr><td>Copyright &copy; 2015 AHAP</td></tr>
+	</table>
+
+	<!-- /container -->
+	<!-- Javascript ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+
+	<script>
+		window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')
+	</script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.navgoco.js"></script>
+	<script src="js/main.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			//Navigation Menu Slider
+			$('#nav-expander').on('click', function(e) {
+				e.preventDefault();
+				$('body').toggleClass('nav-expanded');
+			});
+			$('#nav-close').on('click', function(e) {
+				e.preventDefault();
+				$('body').removeClass('nav-expanded');
+			});
+
+			// Initialize navgoco with default options
+			$(".main-menu").navgoco({
+				caret : '<span class="caret"></span>',
+				accordion : false,
+				openClass : 'open',
+				save : true,
+				cookie : {
+					name : 'navgoco',
+					expires : false,
+					path : '/'
+				},
+				slide : {
+					duration : 300,
+					easing : 'swing'
+				}
+			});
+		});
+	</script>
+</body>
+</html>
