@@ -21,10 +21,6 @@ public class VitalBean {
 	private double triglercides;
 	
 
-	// "jdbc:mysql://cs437.db.10926300.hostedresource.com/cs437";
-	// private String un = "cs437";
-	// private String pw = "Password123!";
-
 	private double retrieveVital(String vital_id, int points) {
 		// gets vital from database
 		Connection c = null;
