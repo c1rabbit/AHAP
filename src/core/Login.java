@@ -40,7 +40,7 @@ public class Login extends HttpServlet {
             while(rs.next()) {
                 if (rs.getString("username").equals(username) && rs.getString("password").equals(password)) {
                 	request.getSession().setAttribute("user", username);
-        			response.sendRedirect("Main.html");
+        			response.sendRedirect("Main");
         			return;
                 }
             }

@@ -2,31 +2,46 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
+<jsp:useBean id="cb" class="core.ConfigBean" />
+
+<%-- set data source --%>
+<sql:setDataSource driver="com.mysql.jdbc.Driver" url="${cb.url}" user="${cb.username}" password="${cb.password}" />
+<c:set var="usersession" value="${sessionScope.user}" />
 
 <c:if test="${param.type == 1}">
 	<c:set var="vitalstring" scope="session" value="Body Temperature" />
 	<c:set var="vitalunit" scope="session" value="Degrees Farenheit" />
-	<c:set var="upperbound" scope="session" value="99" />
-	<c:set var="lowerbound" scope="session" value="97.8" />
+	<c:set var="tablename" scope="session" value="vital_body_temp" />
 </c:if>
 <c:if test="${param.type == 2}">
 	<c:set var="vitalstring" scope="session" value="Heart Rate" />
 	<c:set var="vitalunit" scope="session" value="Beats/Min" />
-	<c:set var="upperbound" scope="session" value="99" />
-	<c:set var="lowerbound" scope="session" value="97.8" />
+	<c:set var="tablename" scope="session" value="vital_heart_rate" />
 </c:if>
 <c:if test="${param.type == 3}">
 	<c:set var="vitalstring" scope="session" value="Respiratory Rate" />
 	<c:set var="vitalunit" scope="session" value="Breaths/Min" />
-	<c:set var="upperbound" scope="session" value="99" />
-	<c:set var="lowerbound" scope="session" value="97.8" />
+	<c:set var="tablename" scope="session" value="vital_respiratory_rate" />
 </c:if>
 <c:if test="${param.type == 4}">
 	<c:set var="vitalstring" scope="session" value="Blood Pressure" />
 	<c:set var="vitalunit" scope="session" value="Sys mm Hg" />
-	<c:set var="upperbound" scope="session" value="99" />
-	<c:set var="lowerbound" scope="session" value="97.8" />
+	<c:set var="tablename" scope="session" value="vital_blood_pressure" />
 </c:if>
+<c:if test="${param.type == 5}">
+	<c:set var="vitalstring" scope="session" value="Cholesterol" />
+	<c:set var="vitalunit" scope="session" value="Mg/dl" />
+	<c:set var="tablename" scope="session" value="vital_ldl_cholesterol" />
+</c:if>
+
+<sql:query var="results">
+	select 
+	<c:if test="${param.type == 3}">
+		age_lower, age_upper, 
+	</c:if>
+	tol_lower, tol_upper, result, search from ${tablename}
+</sql:query>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -39,18 +54,23 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/main.css" />
 	<link rel="stylesheet" href="css/customize.css" />
+	<style>
+		th, td { padding: 5px; }
+	</style>
 </head>
 <body>
 	<nav>
 		<ul class="list-unstyled main-menu">
 			<!--Include your navigation here-->
 			<li class="text-right"><a href="#" id="nav-close"><i class="glyphicon glyphicon-menu-right"></i></a></li>
-			<li><a href="Main.html">Home <span class="icon"><i class="glyphicon glyphicon-home"></i></span></a></li>
-			<li><a href="Profile.jsp">Profile <span class="icon"><i class="glyphicon glyphicon-user"></i></span></a></li>
+			<li><a href="Main">Home <span class="icon"><i class="glyphicon glyphicon-home"></i></span></a></li>
+			<li><a href="Profile">Profile <span class="icon"><i class="glyphicon glyphicon-user"></i></span></a></li>
 			<li><a href="Chart?type=1">Body Temperature<span class="icon"><i class="glyphicon glyphicon-fire"></i></span></span></a></li>
 			<li><a href="Chart?type=2">Heart Rate <span class="icon"><i class="glyphicon glyphicon-heart"></i></span></a></li>
 			<li><a href="Chart?type=3">Respiratory Rate <span class="icon"><i class="glyphicon glyphicon-random"></i></span></a></li>
 			<li><a href="Chart?type=4">Blood Pressure <span class="icon"><i class="glyphicon glyphicon-tint"></i></span></a></li>
+			<li><a href="Chart?type=5">Cholesterol <span class="icon"><i class="glyphicon glyphicon-cutlery"></i></span></a></li>
+			<li><a href="Print">Print <span class="icon"><i class="glyphicon glyphicon-print"></i></span></a></li>
 			<li><a href="Logout">Log Out <span class="icon"><i class="glyphicon glyphicon-off"></i></span></a></li>
 	    </ul>
 	</nav>
@@ -60,12 +80,11 @@
 		<!-- <a class="navbar-brand" href="Main.html">Advanced Health Assessment Program</a> -->
 		<table border="0" id="pageheader">
 			<tr>
-				<td><a href="Main.html"><img src="images/logo_small.png" alt="Advance Health Assessment Program Logo" /></a></td>
+				<td><a href="Main"><img src="images/logo_small.png" alt="Advance Health Assessment Program Logo" /></a></td>
 			</tr>
 		</table>
 		<div class="navbar-header pull-right">
-			<a id="nav-expander" class="nav-expander fixed"> MENU &nbsp;
-				<i class="glyphicon glyphicon-align-justify"></i>
+			<a id="nav-expander" class="nav-expander fixed"><i class="glyphicon glyphicon-align-justify"></i>
 			</a>
 		</div>
 	</div>
@@ -135,15 +154,68 @@
 				forms. Chronic hypertension is a risk factor for many complications, including peripheral vascular disease, heart attack, and stroke. Hypertension is generally more common, 
 				also due to the demands of modern lifestyles. Hypertension and hypotension go often undetected because of infrequent monitoring.</p>
 			</c:if>
+			<c:if test="${param.type == 5}">
+				<p><b>Total blood (or serum) cholesterol</b><br />
+				Your total cholesterol score is calculated using the following equation: HDL + LDL + 20 percent of your triglyceride level. 
+				A total cholesterol score of less than 180 mg/dL is considered optimal.</p>
+				<p><b>HDL (good) cholesterol</b><br />
+				With HDL cholesterol, higher levels are better. Low HDL cholesterol puts you at higher risk for heart disease. People with 
+				high blood triglycerides usually also have lower HDL cholesterol. Genetic factors, type 2 diabetes, and certain drugs, such 
+				as beta-blockers and anabolic steroids, also lower HDL cholesterol levels. Smoking, being overweight and being sedentary can 
+				all result in lower HDL cholesterol.</p>
+				<p><b>LDL (bad) cholesterol</b><br />
+				A low LDL cholesterol level is considered good for your heart health. However, your LDL number should no longer be the main 
+				factor in guiding treatment to prevent heart attack and stroke, according to new guidelines from the American Heart Association. 
+				For patients taking statins, the guidelines say they no longer need to get LDL cholesterol levels down to a specific target 
+				number. A diet high in saturated and trans fats raises LDL cholesterol.</p>
+				<p><b>Triglycerides</b><br />
+				Triglyceride is the most common type of fat in the body. Normal triglyceride levels vary by age and sex. A high triglyceride 
+				level combined with low HDL cholesterol or high LDL cholesterol is associated with atherosclerosis, the buildup of fatty deposits 
+				in artery walls that increases the risk for heart attack and stroke.</p>
+			</c:if>
 		</div>
     </div>
+    
+    <br />
+    
+    <div class="container">
+		<div class="row">
+			<h4>Evaluation Standards</h4>
+			<c:if test="${param.type == 2}">
+				<b>Heart Rate</b>
+				<p>This table shows estimated target heart rates for different ages. Your maximum heart rate is about 220 minus your age.</p>
+				<p>Heart rate during moderately intense activities is about 50 - 69% of your maximum heart rate, whereas heart rate during 
+				hard physical activity is about 70% to less than 90% of the maximum heart rate.</p>
+				<p>If your heart rate is too high, you're straining. So slow down. If it's too low, and the intensity feels "light" or 
+				"moderate/brisk," you may want to push yourself to exercise a little harder.</p>
+				<p>During the first few weeks of working out, aim for the lower ranger of your target zone (50 percent) and gradually 
+				build up to the higher range (85 percent). After six months or more, you may be able to exercise comfortably at up to 
+				85% of your maximum heart rate.</p>
+				<p>Source: <a href="http://www.heart.org/HEARTORG/GettingHealthy/PhysicalActivity/FitnessBasics/Target-Heart-Rates_UCM_434341_Article.jsp">
+				www.heart.org</a></p>
+			</c:if>
+		    <table border="1" cellspacing="0" cellpadding="3" style="border-collapse:collapse;">
+		    	<tr>
+		    	<c:if test="${param.type == 3}">
+		    		<th>Age Lower Bound</th><th>Age Upper Bound</th>
+		    	</c:if>
+		    	<th>Lower Bound</th><th>Upper Bound</th><th>Result</th><th>More...</th></tr>
+			    <c:forEach items="${results.rows}" var="result">
+			    	<tr>
+			    	<c:if test="${param.type == 3}">
+			    		<td>${result.age_lower}</td><td>${result.age_upper}</td>
+			    	</c:if>
+			    	<td>${result.tol_lower}</td><td>${result.tol_upper}</td><td>${result.result}</td><td><a href="Search.jsp?q=${result.search}" target="_blank">Search</a></td></tr>
+			    </c:forEach>
+    		</table>
+		</div>
+	</div>
     
     <br /><br /><br />
     
     <table border="0" style="width: 100%; text-align: center;">
-		<tr><td><a href="Main.html">Home</a> | <a href="Profile.jsp">Profile</a> | <a href="Logout">Logout</a></td></tr>
-		<tr><td>&nbsp;</td></tr>
-		<tr><td>Copyright &copy; 2015 AHAP</td></tr>
+		<tr><td><a href="Main">Home</a> | <a href="Profile">Profile</a> | <a href="Logout">Logout</a></td></tr>
+		<tr><td>Copyright &copy; 2015 Advanced Health Assessment Program</td></tr>
 	</table>
 	<br /><br /><br />
     
@@ -210,16 +282,19 @@
 								setInterval(function () {
 									$.ajax({
 										<c:if test="${param.type == 1}">
-											url: 'http://localhost:8080/ahap/Chart?type=BT',
+											url: 'Chart?type=BT',
 										</c:if>
 										<c:if test="${param.type == 2}">
-											url: 'http://localhost:8080/ahap/Chart?type=HR',
+											url: 'Chart?type=HR',
 										</c:if>
 										<c:if test="${param.type == 3}">
-											url: 'http://localhost:8080/ahap/Chart?type=RR',
+											url: 'Chart?type=RR',
 										</c:if>
 										<c:if test="${param.type == 4}">
-											url: 'http://localhost:8080/ahap/Chart?type=BP',
+											url: 'Chart?type=BP',
+										</c:if>
+										<c:if test="${param.type == 5}">
+											url: 'Chart?type=LDL',
 										</c:if>
 										datatype:'json',
 										type:'post',

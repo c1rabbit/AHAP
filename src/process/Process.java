@@ -43,9 +43,9 @@ public class Process {
 		try {
 
 			Class.forName("com.mysql.jdbc.Driver");
-			c = DriverManager.getConnection(cb.getUrl(), cb.getUsername(),
-					cb.getPassword());
+			c = DriverManager.getConnection(cb.getUrl(), cb.getUsername(), cb.getPassword());
 			stmt = c.createStatement();
+			
 			try {
 				rs = stmt.executeQuery("SELECT result, level, search FROM " + table
 						+ " WHERE tol_lower <= " + measurement
@@ -77,13 +77,12 @@ public class Process {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		
 		return arr;
-
 	}
 
 	// separate function for heart rate comparison
-	private JSONArray compareVitalHeartRate(String table, double measurement,
-			double lastVital, double age) throws Exception {
+	private JSONArray compareVitalHeartRate(String table, double measurement, double lastVital, double age) throws Exception {
 		if (measurement == 0)
 			throw new Exception(table + " has NO measurement to compare");
 		if (age == 0)
@@ -108,6 +107,7 @@ public class Process {
 			result = "Heart Rate is dangerously below recommended rate.";
 			level = 2;
 		}
+		
 		JSONArray arr = new JSONArray();
 		arr.put("Heart Rate");
 		arr.put(Double.toString(measurement));
@@ -117,99 +117,63 @@ public class Process {
 		arr.put("Heart Rate");
 
 		return arr;
-
 	}
 
 	public Process(String user) {
 		this.username = user;
-		VitalBean vitalAvg = new VitalBean(username, 60);
+		VitalBean vitalAvg = new VitalBean(username, 30);
 		VitalBean vitalLast = new VitalBean(username, 1);
 
 		json = new JSONObject();
 
 		// analyze data with database
 		try {
-			json.put(
-					"BP",
-					compareVital("Blood Pressure", "vital_blood_pressure",
-							vitalAvg.getBloodPressureSys(),
-							vitalLast.getBloodPressureSys()));
+			json.put("BP", compareVital("Blood Pressure", "vital_blood_pressure", vitalAvg.getBloodPressureSys(), vitalLast.getBloodPressureSys()));
 		} catch (Exception e) {
-			System.out.println("BP" + e);
+			System.out.println("BP: " + e);
 		}
+		
 		try {
-			json.put(
-					"BP2",
-					compareVital("Blood Pressure", "vital_blood_pressure",
-							vitalAvg.getBloodPressureDys(),
-							vitalLast.getBloodPressureDys()));
+			json.put("BP2", compareVital("Blood Pressure", "vital_blood_pressure", vitalAvg.getBloodPressureDys(), vitalLast.getBloodPressureDys()));
 		} catch (Exception e) {
-			System.out.println("BP2" + e);
+			System.out.println("BP2: " + e);
 		}
 
 		try {
-			json.put(
-					"BT",
-					compareVital("Body Temperature", "vital_body_temp",
-							vitalAvg.getBodyTemp(), vitalLast.getBodyTemp()));
+			json.put("BT", compareVital("Body Temperature", "vital_body_temp", vitalAvg.getBodyTemp(), vitalLast.getBodyTemp()));
 		} catch (Exception e) {
-			System.out.println("BT analyze issue");
+			System.out.println("BT: " + e);
 		}
 
-		try {
-			json.put(
-					"BG",
-					compareVital("Blood Glucose", "vital_diabetes",
-							vitalAvg.getBloodGlucose(),
-							vitalLast.getBloodGlucose()));
+		try {json.put("BG", compareVital("Blood Glucose", "vital_diabetes", vitalAvg.getBloodGlucose(), vitalLast.getBloodGlucose()));
 		} catch (Exception e) {
-			System.out.println("BG" + e);
+			System.out.println("BG: " + e);
 		}
 		try {
-			json.put(
-					"RR",
-					compareVital("Respiratory Rate", "vital_respiratory_rate",
-							vitalAvg.getRespiratoryRate(),
-							vitalLast.getRespiratoryRate()));
+			json.put("RR", compareVital("Respiratory Rate", "vital_respiratory_rate", vitalAvg.getRespiratoryRate(), vitalLast.getRespiratoryRate()));
 		} catch (Exception e) {
-			System.out.println("RR" + e);
+			System.out.println("RR: " + e);
 		}
 		try {
-			json.put(
-					"HR",
-					compareVitalHeartRate("vital_heart_rate",
-							vitalAvg.getHeartRate(), vitalLast.getHeartRate(),
-							vitalAvg.getAge()));
+			json.put("HR", compareVitalHeartRate("vital_heart_rate", vitalAvg.getHeartRate(), vitalLast.getHeartRate(), vitalAvg.getAge()));
 		} catch (Exception e) {
-			System.out.println("HR" + e);
+			System.out.println("HR: " + e);
 		}
 		try {
-			json.put(
-					"HDL",
-					compareVital("Cholesterol", "vital_hdl_cholesterol",
-							vitalAvg.getHdlCholesterol(),
-							vitalLast.getHdlCholesterol()));
+			json.put("HDL", compareVital("Cholesterol", "vital_hdl_cholesterol", vitalAvg.getHdlCholesterol(), vitalLast.getHdlCholesterol()));
 		} catch (Exception e) {
 			System.out.println("HDL" + e);
 		}
 		try {
-			json.put(
-					"LDL",
-					compareVital("Cholesterol", "vital_ldl_cholesterol",
-							vitalAvg.getLdlCholesterol(),
-							vitalLast.getLdlCholesterol()));
+			json.put("LDL", compareVital("Cholesterol", "vital_ldl_cholesterol", vitalAvg.getLdlCholesterol(), vitalLast.getLdlCholesterol()));
 		} catch (Exception e) {
-			System.out.println("LDL" + e);
+			System.out.println("LDL: " + e);
 		}
 
 		try {
-			json.put(
-					"TRI",
-					compareVital("Cholesterol", "vital_triglyceride",
-							vitalAvg.getTriglercides(),
-							vitalLast.getTriglercides()));
+			json.put("TRI", compareVital("Cholesterol", "vital_triglyceride", vitalAvg.getTriglercides(), vitalLast.getTriglercides()));
 		} catch (JSONException e) {
-			System.out.println("TRI" + e);
+			System.out.println("TRI: " + e);
 		}
 	}
 }

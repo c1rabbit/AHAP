@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Profile")
-public class Profile extends HttpServlet {
+@WebServlet("/Print")
+public class Print extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public Profile() {
+    public Print() {
         super();
     }
 
@@ -24,6 +24,6 @@ public class Profile extends HttpServlet {
 			return;
 		}
 		
-		request.getRequestDispatcher("Profile.jsp").forward(request, response);
+		request.getRequestDispatcher("Print.jsp").forward(request, response);
 	}
 }

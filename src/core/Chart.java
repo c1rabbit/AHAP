@@ -50,6 +50,8 @@ public class Chart extends HttpServlet {
 			dataValue = vb.getRespiratoryRate();
 		} else if (type.equals("BP")) {
 			dataValue = vb.getBloodPressureSys();
+		} else if (type.equals("LDL")) {
+			dataValue = vb.getLdlCholesterol();
 		}
 		
 		try {

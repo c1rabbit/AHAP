@@ -3,7 +3,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Search</title>
@@ -23,15 +22,11 @@
 
 </head>
 <body>
+	<h2>Search results for <em>${param["q"]}</em></h2>
 
-	<h2>
-		Search results for <em>${param["q"] }</em>
-	</h2>
-
-	<gcse:searchresults-only></gcse:searchresults-only>
+	<gcse:search></gcse:search>
 
 	<p>Source(s): www.cdc.gov www.heart.org www.webmd.com</p>
 	<button onclick="history.back();">Back</button>
 </body>
-
 </html>

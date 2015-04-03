@@ -24,14 +24,14 @@
 		</select><br /><br />
 		<table border="0">
 			<tr><th>Vital Signs (healthy range)</th><th>&nbsp;&nbsp;</th><th>Min</th><th>Max</th></tr>
-			<tr><td>Body Temperature (97.8 ~ 99F)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="body_min" size="10" value="97.8" /></td><td><input type="text" name="body_max" size="10" value="99" /></td></tr>
-			<tr><td>Pulse Rate (60 ~ 100/min)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="pulse_min" size="10" value="60" /></td><td><input type="text" name="pulse_max" size="10" value="100" /></td></tr>
-			<tr><td>Respiration Rate (12 ~ 16/min)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="respiration_min" size="10" value="12" /></td><td><input type="text" name="respiration_max" size="10" value="16" /></td></tr>
-			<tr><td>Systolic Pressure (&lt; 120 mm Hg)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="systolic_min" size="10" value="100" /></td><td><input type="text" name="systolic_max" size="10" value="115" /></td></tr>
-			<tr><td>Diastolic Pressure (&lt; 80 mm Hg)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="diastolic_min" size="10" value="60" /></td><td><input type="text" name="diastolic_max" size="10" value="75" /></td></tr>
-			<tr><td>LDL</td><td>&nbsp;&nbsp;</td><td><input type="text" name="ldl_min" size="10" value="51" /></td><td><input type="text" name="ldl_max" size="10" value="129" /></td></tr>
-			<tr><td>HDL</td><td>&nbsp;&nbsp;</td><td><input type="text" name="hdl_min" size="10" value="60" /></td><td><input type="text" name="hdl_max" size="10" value="300" /></td></tr>
-			<tr><td>Triglycerides</td><td>&nbsp;&nbsp;</td><td><input type="text" name="triglycerides_min" size="10" value="51" /></td><td><input type="text" name="triglycerides_max" size="10" value="150" /></td></tr>
+			<tr><td>Body Temperature (97.6 ~ 98.69F)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="body_min" size="10" value="97.6" /></td><td><input type="text" name="body_max" size="10" value="98.69" /></td></tr>
+			<tr><td>Heart Rate (51 ~ 70/min)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="pulse_min" size="10" value="100" /></td><td><input type="text" name="pulse_max" size="10" value="110" /></td></tr>
+			<tr><td>Respiration Rate (12 ~ 18/min)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="respiration_min" size="10" value="12" /></td><td><input type="text" name="respiration_max" size="10" value="18" /></td></tr>
+			<tr><td>Systolic Pressure (90 ~ 119 mm Hg)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="systolic_min" size="10" value="90" /></td><td><input type="text" name="systolic_max" size="10" value="119" /></td></tr>
+			<tr><td>Diastolic Pressure (&lt; 80 mm Hg)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="diastolic_min" size="10" value="70" /></td><td><input type="text" name="diastolic_max" size="10" value="80" /></td></tr>
+			<tr><td>HDL (60 ~ 300 mL)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="hdl_min" size="10" value="60" /></td><td><input type="text" name="hdl_max" size="10" value="300" /></td></tr>
+			<tr><td>LDL (51 ~ 129 mL)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="ldl_min" size="10" value="51" /></td><td><input type="text" name="ldl_max" size="10" value="129" /></td></tr>
+			<tr><td>Triglycerides (51 ~ 150 mL)</td><td>&nbsp;&nbsp;</td><td><input type="text" name="triglycerides_min" size="10" value="51" /></td><td><input type="text" name="triglycerides_max" size="10" value="150" /></td></tr>
 			<tr><td># of Data Entry Sets</td><td>&nbsp;&nbsp;</td><td colspan="2"><input type="text" name="datacount" size="10" value="20" /></td></tr>
 			<tr><td>Time Interval</td><td>&nbsp;&nbsp;</td><td colspan="2"><input type="text" name="interval" size="10" value="2" /> seconds</td></tr>
 		</table>

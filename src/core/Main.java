@@ -23,6 +23,6 @@ public class Main extends HttpServlet {
 			return;
 		}
 		
-		request.getRequestDispatcher("/WEB-INF/Main.jsp").forward(request, response);
+		request.getRequestDispatcher("Main.jsp").forward(request, response);
 	}
 }

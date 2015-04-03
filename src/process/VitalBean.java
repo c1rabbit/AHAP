@@ -20,19 +20,18 @@ public class VitalBean {
 	private double ldlCholesterol;
 	private double triglercides;
 	
-
 	private double retrieveVital(String vital_id, int points) {
 		// gets vital from database
 		Connection c = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		ConfigBean cb = new ConfigBean();
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-
-			c = DriverManager.getConnection(cb.getUrl(), cb.getUsername(),
-					cb.getPassword());
+			c = DriverManager.getConnection(cb.getUrl(), cb.getUsername(), cb.getPassword());
 			stmt = c.createStatement();
+			
 			try {
 				rs = stmt
 						.executeQuery("SELECT FORMAT(AVG(x.data_value),2) as average FROM (SELECT data_value FROM datas d, users u, users_datas ud "
@@ -53,8 +52,8 @@ public class VitalBean {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		return 0;
-
 	}
 
 	public VitalBean(String user, int points) {
@@ -72,45 +71,21 @@ public class VitalBean {
 		setBloodGlucose(retrieveVital("0", points));
 	}
 
-	public void setHdlCholesterol(double hdlCholesterol) {
-		this.hdlCholesterol = hdlCholesterol;
-	}
-
-	public void setLdlCholesterol(double ldlCholesterol) {
-		this.ldlCholesterol = ldlCholesterol;
-	}
-
-	public void setTriglercides(double triglercides) {
-		this.triglercides = triglercides;
-	}
-
-	public double getHdlCholesterol() {
-		return hdlCholesterol;
-	}
-
-	public double getLdlCholesterol() {
-		return ldlCholesterol;
-	}
-
-	public double getTriglercides() {
-		return triglercides;
-	}
-
-	public VitalBean(double age, double bloodPressure, double bodyTemp,
-			double bloodGlucose, double respiratoryRate, double heartRate) {
-		this.age = age;
-		this.bloodPressureSys = bloodPressureSys;
-		this.bodyTemp = bodyTemp;
-		this.bloodGlucose = bloodGlucose;
-		this.respiratoryRate = respiratoryRate;
-		this.heartRate = heartRate;
-	}
+//	public VitalBean(double age, double bloodPressure, double bodyTemp, double bloodGlucose, double respiratoryRate, double heartRate) {
+//		this.age = age;
+//		this.bloodPressureSys = bloodPressureSys;
+//		this.bodyTemp = bodyTemp;
+//		this.bloodGlucose = bloodGlucose;
+//		this.respiratoryRate = respiratoryRate;
+//		this.heartRate = heartRate;
+//	}
 
 	public double getAge() {
 		Statement stmt;
 		ResultSet rs;
 		Connection c = null;
 		ConfigBean cb = new ConfigBean();
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			c = DriverManager.getConnection(cb.getUrl(), cb.getUsername(),
@@ -130,8 +105,6 @@ public class VitalBean {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-
 		}
 
 		return age;
@@ -187,5 +160,28 @@ public class VitalBean {
 	public void setHeartRate(double heartRate) {
 		this.heartRate = heartRate;
 	}
+	
+	public void setHdlCholesterol(double hdlCholesterol) {
+		this.hdlCholesterol = hdlCholesterol;
+	}
 
+	public void setLdlCholesterol(double ldlCholesterol) {
+		this.ldlCholesterol = ldlCholesterol;
+	}
+
+	public void setTriglercides(double triglercides) {
+		this.triglercides = triglercides;
+	}
+
+	public double getHdlCholesterol() {
+		return hdlCholesterol;
+	}
+
+	public double getLdlCholesterol() {
+		return ldlCholesterol;
+	}
+
+	public double getTriglercides() {
+		return triglercides;
+	}
 }
